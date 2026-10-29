@@ -13,6 +13,9 @@ public sealed class GameSession : MonoBehaviour
     [SerializeField] private TMP_Text resultText;
     [SerializeField] private TMP_Text statusText;
     [SerializeField] private UnityEngine.UI.Button startButton;
+    [SerializeField] private TMP_Text bestText;
+
+   
 
     private AudioClip generatedCollectClip;
     private CoinRound round;
@@ -22,6 +25,8 @@ public sealed class GameSession : MonoBehaviour
     private bool showingResult;
     private bool busy;
     private bool paused;
+    private const string BestKey = "PlatformCoinLab.Best";
+    private int best;
 
     public int Score => round.Score;
     public bool IsPlaying => playing;
@@ -33,6 +38,7 @@ public sealed class GameSession : MonoBehaviour
     private void Awake()
     {
         round = new CoinRound(roundSeconds);
+        best = PlayerPrefs.GetInt(BestKey,0);
         startPosition = player.position;
 
         // 외부 AudioClip이 연결되어 있지 않을 때만 짧은 수집음을 직접 만듭니다.
@@ -172,8 +178,24 @@ public sealed class GameSession : MonoBehaviour
     {
         playing = false;
         showingResult = true;
+        SaveBest();
     }
 
+    public void SaveBest()
+    {
+        best = Mathf.Max(best, Score);
+        PlayerPrefs.SetInt(BestKey, best);
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationPause(bool value)
+    {
+        paused = value;
+        if(value)
+        {
+            SaveBest();
+        }
+    }
     private void RefreshUi()
     {
         menuPanel.SetActive(!playing && !showingResult);
@@ -183,5 +205,6 @@ public sealed class GameSession : MonoBehaviour
         // 0.2초가 남았을 때 0으로 보이지 않도록 올림해서 1초로 표시합니다.
         hud.text = $"Score: {Score}  Time: {Mathf.CeilToInt(round.Remaining)}";
         resultText.text = $"Score: {Score}";
+        bestText.text = $"Best : {best}";
     }
 }
