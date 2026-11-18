@@ -1987,6 +1987,7 @@ GameObject:
   - component: {fileID: 878808734}
   - component: {fileID: 878808736}
   - component: {fileID: 878808737}
+  - component: {fileID: 878808738}
   m_Layer: 0
   m_Name: GameSession
   m_TagString: Untagged
@@ -2059,6 +2060,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlatformConfigLoader
   session: {fileID: 878808734}
   remoteUrl: 
+--- !u!114 &878808738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878808733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f38b9f0b38abd43b5c5d537091e273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FramePolicy
 --- !u!1 &1320876345
 GameObject:
   m_ObjectHideFlags: 0
